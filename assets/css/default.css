@@ -1,0 +1,347 @@
+
+body {
+	background: white url(http://assets.joesgoals.com/images/fading_background_20.png); 
+	background-repeat: repeat-x;
+}
+body, td, span, div{
+	cursor:default;
+	font-family:Lucida Grande,Lucida Sans,Arial,sans-serif;
+}
+
+.groupmembers a {
+	font-size:150%;
+}
+
+.groupmembers td {
+	width:200px;
+}
+
+.shortpage {
+	width:80%;
+	padding-top:150px;
+	text-align:left;
+}
+
+.floatright {
+	float:right;
+}
+
+			.pops {
+				display:none;
+			}
+.todayB {margin-right:10px;float:right;}			
+.linkselect span {
+	background-color:silver;
+	margin-left:10px;
+	cursor:pointer;
+}
+.linkselect .active {
+	color:red;
+}
+
+.dayselect span {
+	margin-left:10px;
+	cursor:pointer;
+}
+.dayselect .selected {
+	background-color:silver;
+}
+
+.content {
+	border-top:thin solid gray;
+	text-align:left;
+	margin-top:20px;
+	min-height:400px;
+}
+
+.footer {
+	width:1050px;
+	text-align:left;
+	font-size:80%;
+	border-top:thin solid gray;
+	margin-top:20px;
+}
+
+.footer a {
+	text-decoration:none;
+	color:black;
+}
+
+.footer a:hover {
+	text-decoration:underline;
+	color:blue;
+}
+
+.footer ul  {
+list-style-image:none;
+list-style-position:outside;
+list-style-type:none;
+margin:2px 5px;
+padding:0;
+}
+
+.footer div {
+	
+	float:right;
+	padding-top:10px;
+	width:200px;
+}
+
+.footer span {
+	font-weight:bold;
+}
+#workarea {
+	width:752px;
+	border: thin solid #BDC9F2;
+	margin-top:30px;
+
+}
+.tracker {
+	padding: 0;
+	margin: 0;
+	width:750px;
+	border-spacing:0px;
+}
+
+.tracker .header td {
+	border-bottom: thin solid #BDC9F2;
+}
+
+.nav {
+	float:right;
+	font-size:80%;
+}
+
+.sitename a {
+	text-decoration:none;
+	color:black;
+}
+
+.sitename a:hover {
+	text-decoration:underline;
+	color:blue;
+}
+
+.tracker td {
+	background-color:white;
+	color: #4f6b72;
+	padding:2px;
+	font-size:80%;
+}
+.tracker .goalCell {
+	background-color:white;
+	color: #4f6b72;
+	padding:2px;
+	font-size:60%;
+	width:25px;
+}
+
+.tracker .dayHeader {
+	border-right:thin solid white;
+	background-color:#BDC9F2;
+	
+}
+
+.tracker .title {
+	text-align:right;
+	cursor:pointer;
+	font-size:90%;
+}
+
+.tracker .title .target {
+	font-size:70%;
+	font-weight:bold;
+	color:gray;
+	
+}
+
+.tracker .title .settarget {
+	font-size:70%;
+	text-decoration:underline;
+	color:gray;
+	
+}
+
+.popback {
+	float:right;
+}
+
+.tracker .title span {
+	cursor:pointer;
+
+}
+.tracker .summary td {
+	text-align:center;
+}
+.tracker .on {
+	background-color:white;
+}
+
+.tracker .off {
+	
+}
+
+.tracker .icon {
+	text-align:center;
+	border-right:thin solid #BDC9F2;
+}
+.tracker .goalCell {
+	text-align:center;
+	cursor:pointer;
+	border-right:thin solid #BDC9F2;
+	border-bottom:thin solid #BDC9F2;
+}
+
+.tracker .nonday {
+	background-color: #BDC9F2;
+}
+
+.tracker .PLUS .goalHit {
+	background-color: #DDFFEF;
+}
+
+.tracker .SCORESHEET .goalHit {
+	background-color: #DDFFEF;
+}
+
+.tracker .MINUS .goalHit {
+	background-color: #F7E7E7;
+}
+
+
+.tracker .dayHeader {
+	text-align:center;
+	width:60px;
+}
+
+
+.tracker .dayHeader .dom {
+	font-size:80%;
+}
+
+.tracker .today {
+	background-color: #CAF9F1;
+}
+
+.tracker .sorthandle {
+	
+	cursor:pointer;
+}
+
+#listSelectFriends {
+	display:none;
+}
+
+.goalTotal {
+	padding: 1px;
+	width:20px;
+}
+.goalScorePostive {
+	padding: 1px;
+	background-color: #DDFFEF;
+}
+
+.goalScoreNegative {
+	padding: 1px;
+	background-color: #F7E7E7;
+}
+
+
+
+.lastEntry {
+	font-size:80%;
+}
+
+.rightClick {
+background:#FFF;
+border:1px solid #444;
+display:none;
+width:150px;
+}
+
+.rightClick ul, #myMenu ul * {
+padding:0;
+margin:0;
+}
+
+.rightClick ul li{
+list-style:none;
+border:1px solid #444;
+padding: 5px;
+display:block;
+}
+
+.rightClick ul li:hover{
+background:#666;
+color:#FFF;
+}
+
+.rightClick ul li:hover span{
+color:#FFF;
+}
+
+.rightClick li:hover a{
+color:#FFF;
+}
+
+.rightClick a{
+color:#000;
+font:11px Tahoma;
+font-weight:bold;
+text-decoration:none;
+}
+
+
+.clickableButton {
+	cursor:pointer;
+
+}
+
+#goalMenu li {
+	cursor:pointer;
+}
+
+.addTracker {
+	cursor:pointer;
+	float:left;
+}
+
+
+.friendsGroups {
+	cursor:pointer;
+}
+
+.settings {
+	cursor:pointer;
+}
+.print {
+	cursor:pointer;
+}
+
+.title img {
+	float:left;
+}
+
+.goBack img {
+	cursor:pointer;
+}
+
+.goForward img {
+	cursor:pointer;
+}
+
+.active {
+	text-decoration:underline;
+}
+.SCORESHEETcell form {
+	border:0;
+	margin:0;
+}
+.SCORESHEETcell input {
+	border:0;
+	margin:0;
+	text-align:center;
+	height:25px;
+	font-size:9.6px;
+	color:#4F6B72;
+}

@@ -1,0 +1,276 @@
+<html>
+<head>
+  <script src="https://cdn.firebase.com/js/client/1.0.11/firebase.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="assets/css/font-awesome/css/font-awesome.css">
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/bootstrap.js"></script>
+    <script src="assets/js/taffy.js"></script>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=320, height=device-height, target-densitydpi=medium-dpi" />
+	<script src="assets/js/dom.js"></script>
+  <style>
+  body {
+  	text-align:center;
+  }
+  	#grid  {
+  		height: 450;
+  		width:450;
+  		border:thin solid silver;
+  		position:relative;
+  		display:none;
+  	}
+  	#nameInput {
+
+  	}
+  	.icon {
+  		font-size:smaller;
+  		color:white;
+  		z-index:50;
+		border-radius: 50%;
+		width: 20px;
+		height: 20px; 
+		background: green;
+		text-align:center;
+			/* width and height can be anything, as long as they're equal */
+			
+  	}
+  	.fa-fighter-jet {
+  		color:#E8E8E8;
+  		position:absolute;
+  		z-index:10;
+  	}
+  	.fa-eye{
+  		color:#E8E8E8;
+  		position:absolute;
+  		z-index:10;
+  	}
+  	.fa-coffee{
+  		color:#E8E8E8;
+  		position:absolute;
+  		z-index:10;
+  	}
+  	.fa-lightbulb-o {
+  		color:#E8E8E8;
+  		position:absolute;
+  		z-index:10;	
+  	}
+  	.vline {
+  		color:silver;
+  		position:absolute;
+  		border-right:4px dashed silver;
+  		width:223px;
+  		height:450px;
+  		top:0px;
+  		left:0px;
+  		z-index:10;	
+  	}
+  	.hline {
+  		color:silver;
+  		position:absolute;
+  		border-bottom:4px dashed silver;
+  		width:450px;
+  		height:223px;
+  		top:0px;
+  		left:0px;
+  		z-index:10;	
+  	}
+
+  </style>
+</head>
+<body>
+  <div class="progress" style="width:310;text-align:center;">
+  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+    <span class="sr-only"></span>
+  </div>
+</div>
+<div id="grid"></div>
+<div id="questions"></div>
+
+<script>
+  var testQuestions = [
+  	[
+    {score:"D",text:"I am often direct and frank in team meetings"},
+  	 {score:"C",text:"I tend to be reserved and careful in team meetings"}],
+  	[{score:"D",text:"I take control when there are crisis situations <br> my team is confronted with"},
+  	 {score:"C",text:"I tend to be more reflective and to see what <br> happens before taking action when a crisis occurs"}],
+  	[{score:"B",text:"My decision making with the team is usually<br> based  on intuition and feelings<br> that I have or that are raised by team members"},
+  	 {score:"A",text:"My	decision	making	is	usually	based<br>	on	facts,	logic	and	specific	information	I	have<br>	or that is communicated by team members"}],
+  	[{score:"A",text:"I tend not to express my emotions and <br> feelings to team members"},
+  	 {score:"B",text:"I often express my emotions and feelings <br> to team members"}],
+  	[{score:"D",text:"I usually contribute information or add to team member <br> discussions and team conversations"},
+  	 {score:"C",text:"I seldom contribute to team member discussions or <br> team conversations since I prefer for them to solve their own problems"}],
+  	[{score:"C",text:"I	am	careful	and	contemplative	about	taking risks <br> and	accepting	new,	difficult	challenges where the team could fail"},
+  	 {score:"D",text:"I	am	quick	to	take	risks	and	accept	new,	difficult <br>	challenges	even	though	some	may	be difficult	for	the	team	to	accomplish"}],
+	[{score:"B",text:"My facial expressions and enthusiasm in <br> conveying my views or responding to the views of <br> team members are greater than most people I know"},
+	 {score:"A",text:"I tend to be less expressive in my facial <br> expressions and enthusiasm in conveying my views <br> or in responding to the views of team members"}],
+	[{score:"A",text:"I	am	usually	a	bit	difficult	to	get	to <br>	know	in	interpersonal	situations	<br> and	business	situations"},
+  	 {score:"B",text:"I feel like I am easy to get to know <br> both in interpersonal situations <br> and business situations"}],
+	[{score:"C",text:"I usually make decisions deliberately, more slowly and with<br> forethought when I know my team will be affected"},
+  	 {score:"D",text:"I usually make decisions quickly, spontaneously <br> and 'in the heat of the moment'"}],
+  	[{score:"B",text:"I am able to adapt to changing schedules and <br> the whims of individuals around me"},
+  	 {score:"A",text:"I am more rigid and disciplined about how I <br> spend my time"}],
+  	[{score:"D",text:"I tend to use strong language and sometimes <br> expressive gestures in communicating to team members,<br> and I feel comfortable in stating my opinions"},
+  	 {score:"C",text:"I tend not to raise my voice, use a harsh <br> tone or use dramatic gestures to express my views,<br> feelings and opinions to team members"}],
+  	[{score:"A",text:"I emphasize planning and detailed information <br> about who should do what, how it should be done and when"},
+  	 {score:"B",text:"I emphasize spontaneity and exciting and unplanned <br> events that capture my attention"}],
+  	[{score:"B",text:"My conversations with team members focus on personal<br> experiences and other people in my life"},
+  	 {score:"A",text:"My conversations with team members focus on my job,<br> professional experiences and the work of other people"}],
+  	[{score:"D",text:"I	tend	to	sometimes	bend	the	rules	to	fit	my	<br>needs	and	the	team's	needs"},
+  	 {score:"C",text:"I always follow policies and rules in getting things done, <br> and I encourage team members to do the same"}],
+  	[{score:"B",text:"My body language and facial expressions<br> tell people right away and with little doubt<br> what I am thinking and feeling"},
+  	 {score:"A",text:"My body language and facial expressions<br> tend to be more reserved so as to disguise my true feelings<br> and personal thoughts from team members"}],
+  	[{score:"B",text:"I like to be out among my team members to get things <br>done and elicit their ideas"},
+  	 {score:"A",text:"I prefer to work alone and to not be encumbered by the <br>thoughts, ideas and feelings of other team members"}],
+  	[{score:"D",text:"I enjoy introducing myself to new team members and am <br> willing to talk to them about myself and personal matters"},
+  	 {score:"C",text:"I usually let new team members introduce themselves to <br> me rather than approaching them	first,<br>	and	I	am	reluctant	to	get	too	personally	involved"}],
+  	[{score:"D",text:"In expressing myself and my views to the team, I often <br> use dramatic statements such as: <br>'I think...,<br>' 'I feel... ' <br>and 'I believe that... '"},
+  	 {score:"C",text:"In expressing myself and my views to the team, I often <br> use statements that defend and justify my beliefs such as: <br>'According to others I have spoken to... ,'<br> 'Based on a previous conversation... '<br> and 'Others have found that... '"}],
+  ];
+
+  //
+ var scores = {A:0,B:0,C:0,D:0};
+ var question = -1;
+ var date = new Date();
+  // Get a reference to the root of the chat data.
+  $(function () {
+  	var recordAnswer = function () {
+  		scores[this.className.split(" ")[this.className.split(" ").length-1]]++;
+  		$("#questions").empty();
+  		if ((question+1) === testQuestions.length) {
+  			$("#questions").empty()
+  			console.log(scores.B-scores.A);
+  			console.log(scores.D-scores.C);
+  			$(".progress-bar").width("100%");
+        //<input type='text' id='nameInput' placeholder='Inititals...'>
+        $("#questions").append(div("Please enter your intitials: ",input({type:"text",id:"initials",placeHolder:"Intitials..."}),button({className:"btn btn-default btn-lg",type:"button",onclick:finish},"Finish")))
+  		} else {
+  			setTimeout(nextQuestion,100);
+  		}
+  	}//<button type="button" class="btn btn-default btn-lg">
+  var nextQuestion = function () {
+
+  	question++;
+    $(".progress-bar").width(((question/testQuestions.length)*100)+ "%");
+  	$("#questions").empty().append(div({style:{textAlign:"center"}},div({style:{width:310}},"Read both statements and select the one that best describes you:")),br(),button({className:"btn btn-default btn-lg " + testQuestions[question][0].score,style:{width:310,height:160},type:"button",onclick:recordAnswer},testQuestions[question][0].text),br(),br(),button({onclick:recordAnswer,className:"btn btn-default btn-lg " + testQuestions[question][1].score,style:{width:310,height:160},type:"button",},testQuestions[question][1].text));
+  	;
+  };
+  nextQuestion();
+  
+  
+  var messagesRef = new Firebase('https://strengthss.firebaseio.com/');
+	//messagesRef.remove();
+  // When the user presses enter on the message input, write the message to firebase.
+  var finish = function () {
+    var name = $('#initials').val();
+    if (name.length > 0 && name.length < 4) {
+        messagesRef.push({d:date.toString(), name:name, a:scores.B-scores.A,b:scores.D-scores.C});
+        printGrid();
+      }
+    }
+  //fa-fighter-jet, fa-coffee, fa-eye, fa-lightblb-o
+  var printGrid = function () {
+  	 $('#nameInput').remove();
+            $('#questions').remove();
+            $('#grid').show();
+            var fighter = i({
+				style : {
+					top:337.5,
+					left:337.5
+					
+				},
+				className : "fa fa-fighter-jet fa-5x"
+			})
+            $("#grid").append(fighter);
+            //
+			fighter.style.left = 337.5 - ($(fighter).width()/2);
+			fighter.style.top = 337.5 - ($(fighter).height()/2);
+			
+			 var eye = i({
+				style : {
+					top:337.5,
+					left:112.5
+					
+				},
+				className : "fa fa-eye fa-5x"
+			})
+            $("#grid").append(eye);
+			eye.style.left = 112.5 - ($(eye).width()/2);
+			eye.style.top = 337.5 - ($(eye).height()/2);
+			
+			 var coffee = i({
+				style : {
+					top:337.5,
+					left:112.5
+					
+				},
+				className : "fa fa-coffee fa-5x"
+			})
+            $("#grid").append(coffee);
+
+			coffee.style.left = 112.5 - ($(coffee).width()/2);
+			coffee.style.top = 112.5 - ($(coffee).height()/2);
+			
+			var light = i({
+				style : {
+					top:337.5,
+					left:112.5
+					
+				},
+				className : "fa fa-lightbulb-o fa-5x"
+			})
+            $("#grid").append(light);
+			light.style.left = 337.5 - ($(light).width()/2);
+			light.style.top = 112.5 - ($(light).height()/2);
+			
+			$("#grid").append(div({className:"vline"}));
+			$("#grid").append(div({className:"hline"}));
+  // Add a callback that is triggered for each chat message.
+  messagesRef.limit(10).on('child_added', function (snapshot) {
+    
+    var message = snapshot.val();
+    console.log(message.d,date);
+    
+    if (message.d === date.toString()) {
+    var a = 225;
+    var b = 225;
+
+    if (message.a > 0) {
+    	a = a -(message.a*25)
+    } else if (message.a < 0) {
+    	a = a + (message.a*-25)
+    }
+
+     if (message.b > 0) {
+    	b = b + (message.b*25)
+    } else if (message.b < 0) {
+    	b = b - (message.b*-25)
+    }
+    var d = span({className:"icon"},message.name);
+   
+    d.style.position = "absolute";
+    d.style.left = b;
+    d.style.top = a;
+    $("#grid").append(d);
+    a = a - ($(d).height()/2);
+    b = b - ($(d).width()/2);
+    d.style.left = b;
+    d.style.top = a;
+  }
+  });
+  };
+ // printGrid();
+  });
+</script>
+
+<script src="assets/js/dom.js"></script>
+
+
+
+</body>
+</html>

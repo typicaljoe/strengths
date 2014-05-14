@@ -1,0 +1,262 @@
+<html>
+<head>
+  <script src="https://cdn.firebase.com/js/client/1.0.11/firebase.js"></script>
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="assets/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/font-awesome/css/font-awesome.css">
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/bootstrap.js"></script>
+    <script src="assets/js/taffy.js"></script>
+
+	<script src="assets/js/dom.js"></script>
+  <style>
+  body {
+  	text-align:center;
+  }
+  	#grid  {
+  		height: 450;
+  		width:450;
+  		border:thin solid silver;
+      text-align: center;
+  		display:none;
+  	}
+  	#questions div {
+		border:thin solid green;
+		padding:2px;
+		font-size:18px;
+		cursor:pointer;
+  	}
+  	#nameInput {
+
+  	}
+  	.icon {
+  		font-size:smaller;
+  		color:white;
+  		z-index:50;
+		border-radius: 50%;
+		width: 20px;
+		height: 20px; 
+		background: green;
+		text-align:center;
+			/* width and height can be anything, as long as they're equal */
+			
+  	}
+  	.fa-fighter-jet {
+  		color:#E8E8E8;
+  		position:absolute;
+  		z-index:10;
+  	}
+  	.fa-eye{
+  		color:#E8E8E8;
+  		position:absolute;
+  		z-index:10;
+  	}
+  	.fa-coffee{
+  		color:#E8E8E8;
+  		position:absolute;
+  		z-index:10;
+  	}
+  	.fa-lightbulb-o {
+  		color:#E8E8E8;
+  		position:absolute;
+  		z-index:10;	
+  	}
+  	.vline {
+  		color:silver;
+  		position:absolute;
+  		border-right:4px dashed silver;
+  		width:223px;
+  		height:450px;
+  		top:0px;
+  		left:0px;
+  		z-index:10;	
+  	}
+  	.hline {
+  		color:silver;
+  		position:absolute;
+  		border-bottom:4px dashed silver;
+  		width:450px;
+  		height:223px;
+  		top:0px;
+  		left:0px;
+  		z-index:10;	
+  	}
+  </style>
+</head>
+<body>
+<div id="grid"></div>
+<div id="questions"></div>
+<input type='text' id='nameInput' placeholder='Inititals...'>
+<script>
+	// Make mobile
+	// sample question
+	// Enter button
+	// Font Awesome graphics
+	// social login app engine with app engine backend
+	// payments ?
+  var testQuestions = [
+  	[{score:"D",text:"I am often direct and frank in team meetings"},
+  	 {score:"C",text:"I tend to be reserved and careful in team meetings"}],
+  	[{score:"D",text:"I take control when there are crisis situations my team is confronted with"},
+  	 {score:"C",text:"I tend to be more reflective and to see what happens before taking action when a crisis occurs"}],
+  	[{score:"B",text:"My decision making with the team is usually based on intuition and feelings that I have or that are raised by team members"},
+  	 {score:"A",text:"My	decision	making	is	usually	based	on	facts,	logic	and	specific	information	I	have	or that is communicated by team members"}],
+  	[{score:"A",text:"I tend not to express my emotions and feelings to team members"},
+  	 {score:"B",text:"I often express my emotions and feelings to team members"}],
+  	[{score:"D",text:"I usually contribute information or add to team member discussions and team conversations"},
+  	 {score:"C",text:"I seldom contribute to team member discussions or team conversations since I prefer for them to solve their own problems"}],
+  	[{score:"C",text:"I	am	careful	and	contemplative	about	taking	risks	and	accepting	new,	difficult	challenges where the team could fail"},
+  	 {score:"D",text:"I	am	quick	to	take	risks	and	accept	new,	difficult	challenges	even	though	some	may	be difficult	for	the	team	to	accomplish"}],
+	[{score:"B",text:"My facial expressions and enthusiasm in conveying my views or responding to the views of team members are greater than most people I know"},
+	 {score:"A",text:"I tend to be less expressive in my facial expressions and enthusiasm in conveying my views or in responding to the views of team members"}],
+	[{score:"A",text:"I	am	usually	a	bit	difficult	to	get	to	know	in	interpersonal	situations	and	business	situations"},
+  	 {score:"B",text:"I feel like I am easy to get to know both in interpersonal situations and business situations"}],
+	[{score:"C",text:"I usually make decisions deliberately, more slowly and with forethought when I know my team will be affected"},
+  	 {score:"D",text:"I usually make decisions quickly, spontaneously and 'in the heat of the moment'"}],
+  	[{score:"B",text:"I am able to adapt to changing schedules and the whims of individuals around me"},
+  	 {score:"A",text:"I am more rigid and disciplined about how I spend my time"}],
+  	[{score:"D",text:"I tend to use strong language and sometimes expressive gestures in communicating to team members, and I feel comfortable in stating my opinions"},
+  	 {score:"C",text:"I tend not to raise my voice, use a harsh tone or use dramatic gestures to express my views, feelings and opinions to team members"}],
+  	[{score:"A",text:"I emphasize planning and detailed information about who should do what, how it should be done and when"},
+  	 {score:"B",text:"I emphasize spontaneity and exciting and unplanned events that capture my attention"}],
+  	[{score:"B",text:"My conversations with team members focus on personal experiences and other people in my life"},
+  	 {score:"A",text:"My conversations with team members focus on my job, professional experiences and the work of other people"}],
+  	[{score:"D",text:"I	tend	to	sometimes	bend	the	rules	to	fit	my	needs	and	the	team's	needs"},
+  	 {score:"C",text:"I always follow policies and rules in getting things done, and I encourage team members to do the same"}],
+  	[{score:"B",text:"My body language and facial expressions tell people right away and with little doubt what I am thinking and feeling"},
+  	 {score:"A",text:"My body language and facial expressions tend to be more reserved so as to disguise my true feelings and personal thoughts from team members"}],
+  	[{score:"B",text:"I like to be out among my team members to get things done and elicit their ideas"},
+  	 {score:"A",text:"I prefer to work alone and to not be encumbered by the thoughts, ideas and feelings of other team members"}],
+  	[{score:"D",text:"I enjoy introducing myself to new team members and am willing to talk to them about myself and personal matters"},
+  	 {score:"C",text:"I usually let new team members introduce themselves to me rather than approaching them	first,	and	I	am	reluctant	to	get	too	personally	involved"}],
+  	[{score:"D",text:"In expressing myself and my views to the team, I often use dramatic statements such as 'I think...,' 'I feel... ' and 'I believe that... '"},
+  	 {score:"C",text:"In expressing myself and my views to the team, I often use statements that defend and justify my beliefs such as, 'According to others I have spoken to... ,' 'Based on a previous conversation... ' and 'Others have found that... '"}],
+  ];
+ var scores = {A:0,B:0,C:0,D:0};
+ var question = -1;
+
+  // Get a reference to the root of the chat data.
+  $(function () {
+  	var recordAnswer = function () {
+  		scores[this.className]++;
+  		$("#questions").empty();
+  		if ((question+1) === testQuestions.length) {
+  			$("#questions").empty()
+  			console.log(scores.B-scores.A);
+  			console.log(scores.D-scores.C);
+  			
+  		} else {
+  			nextQuestion();
+  		}
+  	}
+  var nextQuestion = function () {
+  	question++;
+  	$("#questions").empty().append(div({onclick:recordAnswer,className:testQuestions[question][0].score},testQuestions[question][0].text),div({onclick:recordAnswer,className:testQuestions[question][1].score},testQuestions[question][1].text));
+  	;
+  };
+  nextQuestion();
+  
+  
+  var messagesRef = new Firebase('https://strengthss.firebaseio.com/');
+	//messagesRef.remove();
+  // When the user presses enter on the message input, write the message to firebase.
+  $('#nameInput').keypress(function (e) {
+    if (e.keyCode == 13) {
+      var name = $('#nameInput').val();
+      messagesRef.push({name:name, a:scores.B-scores.A,b:scores.D-scores.C});
+      printGrid();
+    }
+  });
+  //fa-fighter-jet, fa-coffee, fa-eye, fa-lightblb-o
+  var printGrid = function () {
+  	 $('#nameInput').remove();
+            $('#questions').remove();
+            $('#grid').show();
+            var fighter = i({
+				style : {
+					top:337.5,
+					left:337.5
+					
+				},
+				className : "fa fa-fighter-jet fa-5x"
+			})
+            $("#grid").append(fighter);
+            //
+			fighter.style.left = 337.5 - ($(fighter).width()/2);
+			fighter.style.top = 337.5 - ($(fighter).height()/2);
+			
+			 var eye = i({
+				style : {
+					top:337.5,
+					left:112.5
+					
+				},
+				className : "fa fa-eye fa-5x"
+			})
+            $("#grid").append(eye);
+			eye.style.left = 112.5 - ($(eye).width()/2);
+			eye.style.top = 337.5 - ($(eye).height()/2);
+			
+			 var coffee = i({
+				style : {
+					top:337.5,
+					left:112.5
+					
+				},
+				className : "fa fa-coffee fa-5x"
+			})
+            $("#grid").append(coffee);
+
+			coffee.style.left = 112.5 - ($(coffee).width()/2);
+			coffee.style.top = 112.5 - ($(coffee).height()/2);
+			
+			var light = i({
+				style : {
+					top:337.5,
+					left:112.5
+					
+				},
+				className : "fa fa-lightbulb-o fa-5x"
+			})
+            $("#grid").append(light);
+			light.style.left = 337.5 - ($(light).width()/2);
+			light.style.top = 112.5 - ($(light).height()/2);
+			
+			$("#grid").append(div({className:"vline"}));
+			$("#grid").append(div({className:"hline"}));
+  // Add a callback that is triggered for each chat message.
+  messagesRef.limit(10).on('child_added', function (snapshot) {
+    var message = snapshot.val();
+    var a = 225;
+    var b = 225;
+
+    if (message.a > 0) {
+    	a = a -(message.a*25)
+    } else if (message.a < 0) {
+    	a = a + (message.a*-25)
+    }
+
+     if (message.b > 0) {
+    	b = b + (message.b*25)
+    } else if (message.b < 0) {
+    	b = b - (message.b*-25)
+    }
+    var d = span({className:"icon"},message.name);
+   
+    d.style.position = "absolute";
+    d.style.left = b;
+    d.style.top = a;
+    $("#grid").append(d);
+    a = a - ($(d).height()/2);
+    b = b - ($(d).width()/2);
+    d.style.left = b;
+    d.style.top = a;
+  });
+  };
+  printGrid();
+  });
+</script>
+
+<script src="assets/js/dom.js"></script>
+</body>
+</html>
